@@ -3,40 +3,55 @@
 
 
 import json
-name = []
-symbol = []
-numb = []
-molM = []
+
+dat = [[],[],[],[]]
 
 # Opening JSON file
-with open("Array_Elements_Ptable.csv", "r") as csvF:
-    row = [i for i in csvF]
-    for i in row:
-        raw_row=i.strip().split(",")
-        name.append(raw_row[0])
-        symbol.append(raw_row[1])
-        numb.append(raw_row[2])
-        molM.append(raw_row[3])
+def listSetUp():
+    global dat
+    with open("Array_Elements_Ptable.csv", "r") as csvF:
+        row = [i for i in csvF]
+        for i,itm in enumerate(row):
+            if i != 0:
+                raw_row=itm.strip().split(",")
+                dat[0].append(raw_row[0])
+                dat[1].append(raw_row[1])
+                dat[2].append(int(raw_row[2]))
+                dat[3].append(float(raw_row[3]))
 
 
+def getDat(iChem):
+    tmpIt = [i[iChem] for i in dat]
+    return(tmpIt)
+
+def cmd_quit():
+    global active
+    print("Program Exit")
+    active = False
+
+def cmd_grepNmr(n):
+    if n < 119 and n >= 0:
+        return getDat(n-1)
+
+
+
+
+listSetUp()
 active = True
-cmdStr = ["exit"]
+cmdStr = ["exit","grepNmr", "grepChem"]
 cmd = [cmd_quit]
 
 
 
 
-def cmd_quit():
-    active = False
-
-
 
 while active:
-    ci = input(">")
+    cin = input(">")
+    cin = cin.split()
     try:
-        cmdStr.index(ci)
-        
-    if ci in cmdStr:
-        print("!")
-        #cmd[]
-    print(ci)
+        ci = cmdStr.index(cin[0])
+        # print(ci)
+        cmd[ci]()
+    except ValueError:
+        print("Unknown cmd")
+          
