@@ -6,7 +6,7 @@ import json
 
 dat = [[],[],[],[]]
 
-# Opening JSON file
+# Opening csv file
 def listSetUp():
     global dat
     with open("Array_Elements_Ptable.csv", "r") as csvF:
@@ -38,20 +38,24 @@ def cmd_grepNmr(n):
 
 listSetUp()
 active = True
-cmdStr = ["exit","grepNmr", "grepChem"]
-cmd = [cmd_quit]
+cmdStr = ["exit","grepnmr", "grepchem"]
+cmd = [cmd_quit, cmd_grepNmr]
 
 
 
 
 
 while active:
-    cin = input(">")
+    cin = input(">").lower()
     cin = cin.split()
     try:
         ci = cmdStr.index(cin[0])
         # print(ci)
-        cmd[ci]()
+        cmd[ci](cin[1])
     except ValueError:
         print("Unknown cmd")
+    except TypeError:
+        print("wrong args")
+    except IndexError():
+        print("wrong args")
           
